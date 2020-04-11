@@ -12,5 +12,5 @@
     "experimentalDecorators": true,
     "noImplicitThis": true
   },
-  "exclude": ["features/**/*"]
+  "exclude": ["test/**/*.ts"]
 }
