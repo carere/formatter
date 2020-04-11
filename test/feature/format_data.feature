@@ -14,11 +14,11 @@ Feature: Format data
         | 01/01/2020 00:00:00 | 10/01/2020 00:00:00 | W1           | 1          |
         | 01/01/2020 00:00:00 | 10/01/2020 00:00:00 | M1           | 0          |
 
-    Scenario: Unable to format
+    Scenario Outline: Unable to format
         Given some data timestamp by minutes
         And a time interval from "<from>" to "<to>"
         When we format those data for unit of time "<unit_of_time>"
-        Then an alert for "<alert_type>" should be thrown
+        Then an alert for "<alert_type>" should be thrown 
 
         Examples:
         | from                | to                  | unit_of_time | alert_type            |
