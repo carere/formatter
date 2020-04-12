@@ -3,9 +3,20 @@ import { TableDefinition } from "cucumber";
 
 @binding()
 export class FormatDataSteps {
+  private candleRepository: CandleRepositoryInterface;
+
   @given("some OCHL candles data")
   public someOchlCandlesData(candles: TableDefinition) {
-    return "pending";
+    candles
+      .hashes()
+      .forEach(function (
+        this: FormatDataSteps,
+        candle: { [x: string]: string }
+      ) {
+        this.candleRepository.add(
+          new Candle(candle.open, candle.close, candle.low, candle.high)
+        );
+      });
   }
 
   @given("some volumes")
