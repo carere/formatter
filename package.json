@@ -10,7 +10,7 @@
     "@typescript-eslint/eslint-plugin": "^2.26.0",
     "@typescript-eslint/parser": "^2.26.0",
     "cucumber": "^6.0.5",
-    "cucumber-pretty": "^6.0.0",
+    "cucumber-html-reporter": "^5.2.0",
     "cucumber-tsflow": "^3.2.0",
     "eslint": "^6.8.0",
     "prettier": "^2.0.2",
@@ -18,6 +18,8 @@
     "typescript": "^3.8.3"
   },
   "scripts": {
-    "build": "npx tsc -b tsconfig.dist.json"
+    "build": "npx tsc -b config/tsconfig.dist.json",
+    "test": "npx cucumber-js test/**/*.feature --require-module ts-node/register --require test/**/*.steps.ts -f json > ./test/report/cucumber_report.json",
+    "report": "npm test; node config/report.js"
   }
 }

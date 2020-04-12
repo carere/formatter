@@ -28,7 +28,7 @@ export class FormatDataSteps {
     return "pending";
   }
 
-  @then("the resulting volume should be {string}")
+  @then("the resulting volume should be {int}")
   public theResultingVolumeShouldBe(volume: number) {
     return "pending";
   }
