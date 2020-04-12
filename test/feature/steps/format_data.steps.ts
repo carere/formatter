@@ -1,5 +1,4 @@
 import { given, then, when, binding } from "cucumber-tsflow";
-import { TableDefinition } from "cucumber";
 
 @binding()
 export class FormatDataSteps {
