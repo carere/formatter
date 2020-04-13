@@ -10,17 +10,11 @@ export class FormatDataSteps {
 
   @given("some OCHL candles data")
   public someOchlCandlesData(candles: TableDefinition) {
-    candles
-      .hashes()
-      .forEach(function (
-        this: FormatDataSteps,
-        candle: { [x: string]: string }
-      ) {
-        this.candleRepository.add(
-          new Candle(+candle.open, +candle.close, +candle.low, +candle.high)
-        );
-      },
-      this);
+    candles.hashes().forEach((candle: { [x: string]: string }) => {
+      this.candleRepository.add(
+        new Candle(+candle.open, +candle.close, +candle.low, +candle.high)
+      );
+    }, this);
   }
 
   @given("some volumes")
