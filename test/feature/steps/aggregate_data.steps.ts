@@ -1,9 +1,12 @@
 import { given, then, when, binding } from "cucumber-tsflow";
 import { TableDefinition } from "cucumber";
+import CandleRepositoryInterface from "../../../src/domain/repositories/CandleRepositoryInterface";
+import InMemoryCandleRepository from "../../../src/adapter/InMemoryCandleRepository";
+import Candle from "../../../src/domain/models/Candle";
 
-@binding()
+@binding([InMemoryCandleRepository])
 export class FormatDataSteps {
-  private candleRepository: CandleRepositoryInterface;
+  constructor(protected candleRepository: CandleRepositoryInterface) {}
 
   @given("some OCHL candles data")
   public someOchlCandlesData(candles: TableDefinition) {
@@ -14,9 +17,10 @@ export class FormatDataSteps {
         candle: { [x: string]: string }
       ) {
         this.candleRepository.add(
-          new Candle(candle.open, candle.close, candle.low, candle.high)
+          new Candle(+candle.open, +candle.close, +candle.low, +candle.high)
         );
-      });
+      },
+      this);
   }
 
   @given("some volumes")
