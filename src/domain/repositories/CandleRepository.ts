@@ -1,5 +1,5 @@
 import Candle from "../models/Candle";
 
-export default interface CandleRepositoryInterface {
+export default interface CandleRepository {
   add(candle: Candle): void;
 }

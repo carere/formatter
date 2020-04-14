@@ -1,12 +1,27 @@
 import { given, then, when, binding } from "cucumber-tsflow";
 import { TableDefinition } from "cucumber";
-import CandleRepositoryInterface from "../../../src/domain/repositories/CandleRepositoryInterface";
-import InMemoryCandleRepository from "../../../src/adapter/InMemoryCandleRepository";
+import assert from "assert";
+import CandleRepository from "../../../src/domain/repositories/CandleRepository";
+import VolumeRepository from "../../../src/domain/repositories/VolumeRepository";
 import Candle from "../../../src/domain/models/Candle";
+import Volume from "../../../src/domain/models/Volume";
+import InMemoryCandleRepository from "../../../src/adapter/InMemoryCandleRepository";
+import InMemoryVolumeRepository from "../../../src/adapter/InMemoryVolumeRepository";
+import AggregateCandlesUseCase from "../../../src/domain/usecases/AggregateCandlesUseCase";
+import AggregateVolumesUseCase from "../../../src/domain/usecases/AggregateVolumesUseCase";
 
-@binding([InMemoryCandleRepository])
+@binding([InMemoryCandleRepository, InMemoryVolumeRepository])
 export class FormatDataSteps {
-  constructor(protected candleRepository: CandleRepositoryInterface) {}
+  protected volume: Volume | undefined;
+  protected candle: Candle | undefined;
+
+  constructor(
+    protected candleRepository: CandleRepository,
+    protected volumeRepository: VolumeRepository
+  ) {
+    this.volume = undefined;
+    this.candle = undefined;
+  }
 
   @given("some OCHL candles data")
   public someOchlCandlesData(candles: TableDefinition) {
@@ -19,26 +34,31 @@ export class FormatDataSteps {
 
   @given("some volumes")
   public someVolumes(volumes: TableDefinition) {
-    return "pending";
+    volumes.hashes().forEach((volume: { [x: string]: string }) => {
+      this.volumeRepository.add(new Volume(+volume.amount));
+    }, this);
   }
 
   @when("we aggregate those candles")
   public weAggregateThoseCandles() {
-    return "pending";
+    this.candle = new AggregateCandlesUseCase().handle();
   }
 
   @when("we aggregate those volumes")
   public weAggregateThoseVolumes() {
-    return "pending";
+    this.volume = new AggregateVolumesUseCase().handle();
   }
 
   @then("the resulting candle should be")
-  public theResultingCandleShouldBe(candle: TableDefinition) {
-    return "pending";
+  public theResultingCandleShouldBe(result: TableDefinition) {
+    let [open, close, high, low] = result.rows().flat();
+    let expectedCandle: Candle = new Candle(+open, +close, +low, +high);
+
+    assert.equal(this.candle, expectedCandle);
   }
 
   @then("the resulting volume should be {int}")
-  public theResultingVolumeShouldBe(volume: number) {
-    return "pending";
+  public theResultingVolumeShouldBe(amount: number) {
+    assert.equal(this.volume!.getAmount(), amount);
   }
 }

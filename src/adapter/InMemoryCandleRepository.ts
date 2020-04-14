@@ -1,7 +1,7 @@
-import CandleRepositoryInterface from "../domain/repositories/CandleRepositoryInterface";
+import CandleRepository from "../domain/repositories/CandleRepository";
 import Candle from "../domain/models/Candle";
 
-export default class implements CandleRepositoryInterface {
+export default class implements CandleRepository {
   protected candles: Array<Candle>;
 
   constructor() {
