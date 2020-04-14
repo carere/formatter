@@ -7,8 +7,8 @@ import Candle from "../../../src/domain/models/Candle";
 import Volume from "../../../src/domain/models/Volume";
 import InMemoryCandleRepository from "../../../src/adapter/InMemoryCandleRepository";
 import InMemoryVolumeRepository from "../../../src/adapter/InMemoryVolumeRepository";
-import AggregateCandlesUseCase from "../../../src/usecase/AggregateCandlesUseCase";
-import AggregateVolumesUseCase from "../../../src/usecase/AggregateVolumesUseCase";
+import AggregateCandles from "../../../src/usecase/AggregateCandles";
+import AggregateVolumes from "../../../src/usecase/AggregateVolumes";
 
 @binding([InMemoryCandleRepository, InMemoryVolumeRepository])
 export class FormatDataSteps {
@@ -41,12 +41,12 @@ export class FormatDataSteps {
 
   @when("we aggregate those candles")
   public weAggregateThoseCandles() {
-    this.candle = new AggregateCandlesUseCase().handle();
+    this.candle = new AggregateCandles().handle();
   }
 
   @when("we aggregate those volumes")
   public weAggregateThoseVolumes() {
-    this.volume = new AggregateVolumesUseCase().handle();
+    this.volume = new AggregateVolumes().handle();
   }
 
   @then("the resulting candle should be")
