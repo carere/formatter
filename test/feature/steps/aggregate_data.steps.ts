@@ -7,8 +7,8 @@ import Candle from "../../../src/domain/models/Candle";
 import Volume from "../../../src/domain/models/Volume";
 import InMemoryCandleRepository from "../../../src/adapter/InMemoryCandleRepository";
 import InMemoryVolumeRepository from "../../../src/adapter/InMemoryVolumeRepository";
-import AggregateCandlesUseCase from "../../../src/domain/usecases/AggregateCandlesUseCase";
-import AggregateVolumesUseCase from "../../../src/domain/usecases/AggregateVolumesUseCase";
+import AggregateCandlesUseCase from "../../../src/usecase/AggregateCandlesUseCase";
+import AggregateVolumesUseCase from "../../../src/usecase/AggregateVolumesUseCase";
 
 @binding([InMemoryCandleRepository, InMemoryVolumeRepository])
 export class FormatDataSteps {

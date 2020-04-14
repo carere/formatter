@@ -1,4 +1,4 @@
-import Volume from "../models/Volume";
+import Volume from "../domain/models/Volume";
 
 export default class {
   handle(): Volume {

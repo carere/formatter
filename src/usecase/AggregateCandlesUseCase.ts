@@ -1,4 +1,4 @@
-import Candle from "../models/Candle";
+import Candle from "../domain/models/Candle";
 
 export default class {
   handle(): Candle {
