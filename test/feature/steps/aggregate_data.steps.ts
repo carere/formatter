@@ -76,8 +76,22 @@ export class FormatDataSteps {
   @then("the resulting candle should be {string}")
   public theResultingCandleShouldBe(id: string) {
     let expectedCandle = this.candleRepository.find(id);
-    //TODO: need to improve check on candles
-    assert.equal(this.candle, expectedCandle);
+
+    assert.equal(
+      [
+        this.candle!.getOpen(),
+        this.candle!.getClose(),
+        this.candle!.getHigh(),
+        this.candle!.getLow(),
+      ],
+      [
+        expectedCandle.getOpen(),
+        expectedCandle.getClose(),
+        expectedCandle.getHigh(),
+        expectedCandle.getLow(),
+      ],
+      "The candle should contain the same values"
+    );
   }
 
   @then("the resulting volume should be {string}")
