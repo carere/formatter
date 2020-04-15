@@ -8,6 +8,15 @@ export default class implements CandleRepository {
     this.candles = [];
   }
 
+  find(id: string): Candle {
+    let candle = this.candles.find((c: Candle) => c.getId() == id, this);
+
+    if (candle === undefined)
+      throw new Error(`Cannot find Candle with id: '${id}'`);
+
+    return candle;
+  }
+
   add(candle: Candle): void {
     this.candles.push(candle);
   }

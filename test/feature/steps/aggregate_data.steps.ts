@@ -12,22 +12,32 @@ import AggregateVolumes from "../../../src/usecase/AggregateVolumes";
 
 @binding([InMemoryCandleRepository, InMemoryVolumeRepository])
 export class FormatDataSteps {
-  protected volume: Volume | undefined;
+  protected candles: Array<Candle>;
+  protected volumes: Array<Volume>;
   protected candle: Candle | undefined;
+  protected volume: Volume | undefined;
 
   constructor(
     protected candleRepository: CandleRepository,
     protected volumeRepository: VolumeRepository
   ) {
-    this.volume = undefined;
+    this.candles = [];
+    this.volumes = [];
     this.candle = undefined;
+    this.volume = undefined;
   }
 
-  @given("some OCHL candles data")
+  @given("some candles")
   public someOchlCandlesData(candles: TableDefinition) {
     candles.hashes().forEach((candle: { [x: string]: string }) => {
       this.candleRepository.add(
-        new Candle(+candle.open, +candle.close, +candle.low, +candle.high)
+        new Candle(
+          candle.id,
+          +candle.open,
+          +candle.close,
+          +candle.low,
+          +candle.high
+        )
       );
     }, this);
   }
@@ -35,30 +45,46 @@ export class FormatDataSteps {
   @given("some volumes")
   public someVolumes(volumes: TableDefinition) {
     volumes.hashes().forEach((volume: { [x: string]: string }) => {
-      this.volumeRepository.add(new Volume(+volume.amount));
+      this.volumeRepository.add(new Volume(volume.id, +volume.amount));
     }, this);
+  }
+
+  @given("some OCHL candle's list id: {string}")
+  public someOchlCandlesList(list: string) {
+    this.candles = list
+      .split(",")
+      .map((id: string) => this.candleRepository.find(id.trim()), this);
+  }
+
+  @given("some volume's list id: {string}")
+  public someVolumesListId(list: string) {
+    this.volumes = list
+      .split(",")
+      .map((id: string) => this.volumeRepository.find(id.trim()), this);
   }
 
   @when("we aggregate those candles")
   public weAggregateThoseCandles() {
-    this.candle = new AggregateCandles().handle();
+    this.candle = new AggregateCandles(this.candles).handle();
   }
 
   @when("we aggregate those volumes")
   public weAggregateThoseVolumes() {
-    this.volume = new AggregateVolumes().handle();
+    this.volume = new AggregateVolumes(this.volumes).handle();
   }
 
-  @then("the resulting candle should be")
-  public theResultingCandleShouldBe(result: TableDefinition) {
-    let [open, close, high, low] = result.rows().flat();
-    let expectedCandle: Candle = new Candle(+open, +close, +low, +high);
-
+  @then("the resulting candle should be {string}")
+  public theResultingCandleShouldBe(id: string) {
+    let expectedCandle = this.candleRepository.find(id);
+    //TODO: need to improve check on candles
     assert.equal(this.candle, expectedCandle);
   }
 
-  @then("the resulting volume should be {int}")
-  public theResultingVolumeShouldBe(amount: number) {
-    assert.equal(this.volume!.getAmount(), amount);
+  @then("the resulting volume should be {string}")
+  public theResultingVolumeShouldBe(id: string) {
+    assert.equal(
+      this.volume!.getAmount(),
+      this.volumeRepository.find(id).getAmount()
+    );
   }
 }

@@ -1,5 +1,9 @@
 export default class {
-  constructor(private amount: number) {}
+  constructor(private id: string, private amount: number) {}
+
+  getId(): string {
+    return this.id;
+  }
 
   getAmount(): number {
     return this.amount;
