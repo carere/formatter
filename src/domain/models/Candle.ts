@@ -3,8 +3,8 @@ export default class {
     private id: string,
     private open: number,
     private close: number,
-    private low: number,
-    private high: number
+    private high: number,
+    private low: number
   ) {}
 
   getId(): string {
@@ -22,5 +22,18 @@ export default class {
   }
   getOpen(): number {
     return this.open;
+  }
+
+  setClose(close: number) {
+    this.close = close;
+  }
+  setLow(low: number) {
+    this.low = low;
+  }
+  setHigh(high: number) {
+    this.high = high;
+  }
+  setOpen(open: number) {
+    this.open = open;
   }
 }

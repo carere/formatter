@@ -9,7 +9,7 @@ Feature: Aggregate Data
         | jkl | 40   | 70    | 99   | 20  |
         | mno | 53   | 80    | 125  | 15  |
         | pqr | 10   | 70    | 100  | 1   |
-        | stu | 20   | 25    | 125  | 6   |
+        | stu | 20   | 25    | 125  | 5   |
 
         Given some volumes
         | id  | amount |
@@ -36,6 +36,6 @@ Feature: Aggregate Data
         Then the resulting volume should be "<id_volume>"
 
         Examples:
-        | id_volume | id_volumes    |
+        | id_volume | volumes_list  |
         | gfh       | vwx, yza, fko |
         | qsd       | wxc, fko, vwx |

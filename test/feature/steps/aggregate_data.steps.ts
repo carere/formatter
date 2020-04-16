@@ -35,8 +35,8 @@ export class FormatDataSteps {
           candle.id,
           +candle.open,
           +candle.close,
-          +candle.low,
-          +candle.high
+          +candle.high,
+          +candle.low
         )
       );
     }, this);
@@ -78,19 +78,24 @@ export class FormatDataSteps {
     let expectedCandle = this.candleRepository.find(id);
 
     assert.equal(
-      [
-        this.candle!.getOpen(),
-        this.candle!.getClose(),
-        this.candle!.getHigh(),
-        this.candle!.getLow(),
-      ],
-      [
-        expectedCandle.getOpen(),
-        expectedCandle.getClose(),
-        expectedCandle.getHigh(),
-        expectedCandle.getLow(),
-      ],
-      "The candle should contain the same values"
+      this.candle!.getOpen(),
+      expectedCandle.getOpen(),
+      "Open value should be the same"
+    );
+    assert.equal(
+      this.candle!.getClose(),
+      expectedCandle.getClose(),
+      "Close value should be the same"
+    );
+    assert.equal(
+      this.candle!.getHigh(),
+      expectedCandle.getHigh(),
+      "High value should be the same"
+    );
+    assert.equal(
+      this.candle!.getLow(),
+      expectedCandle.getLow(),
+      "Low value should be the same"
     );
   }
 
@@ -98,7 +103,8 @@ export class FormatDataSteps {
   public theResultingVolumeShouldBe(id: string) {
     assert.equal(
       this.volume!.getAmount(),
-      this.volumeRepository.find(id).getAmount()
+      this.volumeRepository.find(id).getAmount(),
+      "the amount should be equal"
     );
   }
 }
