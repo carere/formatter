@@ -8,4 +8,8 @@ export default class {
   getAmount(): number {
     return this.amount;
   }
+
+  setAmount(amount: number) {
+    this.amount = amount;
+  }
 }

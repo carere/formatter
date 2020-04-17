@@ -4,6 +4,12 @@ export default class {
   constructor(private volumes: Array<Volume>) {}
 
   handle(): Volume {
-    return new Volume("aaa", 0);
+    let volume = new Volume("aaa", 0);
+
+    this.volumes.forEach((v: Volume) => {
+      volume.setAmount(volume.getAmount() + v.getAmount());
+    });
+
+    return volume;
   }
 }
