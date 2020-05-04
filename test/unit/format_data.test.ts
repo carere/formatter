@@ -1,17 +1,26 @@
 import FormatByUnitOfTime from "../../src/usecase/FormatByUnitOfTime";
 
 describe("Format data", function () {
-  it("should format by unit of time H1 and get 240 entries", function () {
-    let from = Date.parse("2020-01-01T00:00:00");
-    let to = Date.parse("2020-01-10T00:00:00");
-    let data: Array<{ timestamp: number }> = [];
+  let data: Array<{ timestamp: number }> = [];
 
-    for (let i = from; i <= to; i += 60000) {
-      data.push({ timestamp: i });
-    }
+  for (
+    let i = Date.parse("2018-01-01T00:00:00");
+    i <= Date.parse("2018-06-01T00:00:00");
+    i += 60000
+  ) {
+    data.push({ timestamp: i });
+  }
 
-    let result = new FormatByUnitOfTime(data, "H1").handle();
+  it("should format by unit of time H1 and get 60 entries in 24 list", function () {
+    let to = Date.parse("2018-01-01T00:00:00");
+    let from = Date.parse("2018-01-02T00:00:00");
 
-    expect(result.length).toEqual(240);
+    let result = new FormatByUnitOfTime().handle();
+
+    expect(result.length).toEqual(24);
+
+    result.forEach((list: []) => {
+      expect(list.length).toEqual(60);
+    });
   });
 });
